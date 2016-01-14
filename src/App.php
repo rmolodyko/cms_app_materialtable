@@ -32,7 +32,7 @@ class App extends \samsoncms\Application
     public function tabBuilder(\samsoncms\app\material\form\Form & $form)
     {
         /** @var \samsoncms\api\Material $material Material instance */
-        $material = null ;
+        $material = null;
         if ($this->query->entity('\samson\cms\CMSMaterial')
             ->cond('MaterialID', $form->entity->id)
             ->first($material)) {
@@ -148,8 +148,11 @@ class App extends \samsoncms\Application
         // If there are no such row yet
         if ($this->query->className('\samson\cms\CMSMaterial')->cond('MaterialID', $materialId)->first($material)) {
 
-            /** @var array $structures Array of structures of this material */
-            $structures = $material->cmsnavs();
+            $structureIds = $this->query->className('structurematerial')->cond('MaterialID', $material->id)->fields('StructureID');
+            $structures = $this->query->className('structure')->cond('StructureID', $structureIds)->exec();
+
+//            /** @var array $structures Array of structures of this material */
+//            $structures = $material->cmsnavs();
 
             // If there are some structures
             if (!empty($structures)) {

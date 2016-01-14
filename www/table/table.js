@@ -101,38 +101,35 @@ function updatePriorityOnChange(tab){
  * @param tab
  */
 function savePriority(tab) {
-    
+
     // Get all items in the tab
     var items = s('.priority_table_material', tab);
 
-    // If there is an element of the table
-    if (items.elements != null) {
-        // Get link to save priority elements
-        var prioritySaveUrl = items.elements[0].a('data-href');
-    
-        // Get data
-        var data = {};
-        items.each(function (e) {
-            data[s(e).a('data-priority')] = s(e).a('data-material');
-        });
-    
-        // Show loader
-        loader.show('', true);
-    
-        // Save priority of items
-        $.ajax({
-            url: prioritySaveUrl,
-            type: 'POST',
-            async: true,
-            data: {ids: data},
-            headers: {
-                'SJSAsync': 'true'
-            },
-            success: function () {
-                loader.hide();
-            }
-        });
-    }
+    // Get link to save priority elements
+    var prioritySaveUrl = items.elements[0].a('data-href');
+
+    // Get data
+    var data = {};
+    items.each(function (e) {
+        data[s(e).a('data-priority')] = s(e).a('data-material');
+    });
+
+    // Show loader
+    loader.show('', true);
+
+    // Save priority of items
+    $.ajax({
+        url: prioritySaveUrl,
+        type: 'POST',
+        async: true,
+        data: {ids: data},
+        headers: {
+            'SJSAsync': 'true'
+        },
+        success: function () {
+            loader.hide();
+        }
+    });
 }
 
 /**
